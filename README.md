@@ -5,7 +5,7 @@
 ### Clone Repo
 
 ```sh
-git clone -b backend https://github.com/muhammadisa226/be-tugas-akhir.git
+git clone -b backend https://github.com/faisalalm01/Nexus_Hub-app.git
 ```
 
 ### Project Setup
@@ -17,11 +17,15 @@ npm install
 ### Configure database
 
 ```sh
-npx prisma init
+npm run initdb
 ```
 
 ```sh
-npx prisma migrate dev
+npm run generate
+```
+
+```sh
+npm run migrate
 ```
 
 ### Run Server
