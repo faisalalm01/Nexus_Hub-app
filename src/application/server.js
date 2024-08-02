@@ -1,0 +1,13 @@
+import express from "express";
+import cors from "cors";
+import router from "../route/index.js";
+import { errorMiddleware } from "../middleware/error-middleware.js";
+import { notFoundMiddleware } from "../middleware/not-found-middleware.js";
+import morgan from "morgan";
+export const server = express();
+server.use(express.json());
+server.use(cors());
+server.use(morgan("dev"));
+server.use(router);
+server.use(errorMiddleware);
+server.use(notFoundMiddleware);

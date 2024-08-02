@@ -14,11 +14,10 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  fullname String  @db.VarChar(50)
-  email    String  @unique @db.VarChar(30)
-  password String  @db.VarChar(100)
-  token    String? @db.VarChar(255)
+  id       String @id @default(uuid())
+  fullname String @db.VarChar(50)
+  email    String @unique @db.VarChar(30)
+  password String @db.VarChar(255)
 
   @@map("users")
 }
