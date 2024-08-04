@@ -8,6 +8,7 @@ import { validate } from "../validation/validation.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { v4 as uuidv4 } from "uuid";
 const register = async (request) => {
   const user = validate(registerValidation, request);
   const countUser = await prismaClient.user.count({
