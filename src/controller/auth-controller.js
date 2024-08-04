@@ -16,7 +16,7 @@ export const login = async (req, res, next) => {
     const result = await authService.login(req.body);
     return res.status(200).json({
       message: "Login Successfully",
-      access_token: result.token,
+      access_token: result,
       status_code: 200,
     });
   } catch (error) {

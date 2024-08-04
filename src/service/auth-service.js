@@ -8,7 +8,6 @@ import { validate } from "../validation/validation.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { v4 as uuidv4 } from "uuid";
 const register = async (request) => {
   const user = validate(registerValidation, request);
   const countUser = await prismaClient.user.count({
@@ -59,20 +58,10 @@ const login = async (request) => {
     email: user.email,
     fullname: user.fullname,
   };
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1d",
   });
-  return prismaClient.user.update({
-    data: {
-      token: token,
-    },
-    where: {
-      email: user.email,
-    },
-    select: {
-      token: true,
-    },
-  });
+  return access_token;
 };
 
 export default {
