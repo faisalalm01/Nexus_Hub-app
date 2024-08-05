@@ -7,9 +7,6 @@
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
-    "initdb": "npx prisma init",
-    "generate": "npx prisma generate",
-    "migrate": "npx prisma migrate dev",
     "test": "jest -i"
   },
   "jest": {
