@@ -14,20 +14,6 @@ git clone -b backend https://github.com/faisalalm01/Nexus_Hub-app.git
 npm install
 ```
 
-### Configure database
-
-```sh
-npm run initdb
-```
-
-```sh
-npm run generate
-```
-
-```sh
-npm run migrate
-```
-
 ### Run Server
 
 ```sh
