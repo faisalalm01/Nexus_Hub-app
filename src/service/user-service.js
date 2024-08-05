@@ -1,20 +1,11 @@
-import { prismaClient } from "../application/database.js";
+import User from "../model/user-model.js";
 import { ResponseError } from "../utils/response-error.js";
-const get = async (email) => {
-  const user = await prismaClient.user.findUnique({
-    where: {
-      email: email,
-    },
-    select: {
-      id: true,
-      fullname: true,
-      email: true,
-    },
-  });
+const getDetailUser = async (email) => {
+  const user = await User.findOne({ email: email });
   if (!user) {
     throw new ResponseError(404, "User Not Found");
   }
   return user;
 };
 
-export default { get };
+export default { getDetailUser };

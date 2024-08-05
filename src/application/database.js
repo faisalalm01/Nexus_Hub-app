@@ -1,44 +1,40 @@
-import { PrismaClient } from "@prisma/client";
+import mongoose from "mongoose";
 import { logger } from "./logger.js";
-export const prismaClient = new PrismaClient({
-  log: [
-    {
-      emit: "event",
-      level: "query",
-    },
-    {
-      emit: "event",
-      level: "error",
-    },
-    {
-      emit: "event",
-      level: "info",
-    },
-    {
-      emit: "event",
-      level: "warn",
-    },
-  ],
-});
+import "dotenv/config";
 
-// prismaClient.$on("error", (e) => {
-//   logger.error(e);
-// });
-// prismaClient.$on("warn", (e) => {
-//   logger.warn(e);
-// });
-// prismaClient.$on("query", (e) => {
-//   logger.info(e);
-// });
-// prismaClient.$on("info", (e) => {
-//   logger.info(e);
-// });
+// const options = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// };
 
-export const testConnectionDatabase = async () => {
+const connectToDatabase = async () => {
   try {
-    await prismaClient.$connect();
+    await mongoose.connect(process.env.DATABASE_URL);
     logger.info("Success Connect Database");
   } catch (error) {
-    logger.error(`Error : ${error.message}`);
+    logger.error(`Error: ${error.message}`);
   }
 };
+
+// Event listener untuk log
+mongoose.connection.on("connected", () => {
+  logger.info("Mongoose connected on " + process.env.DATABASE_URL);
+});
+
+mongoose.connection.on("error", (err) => {
+  logger.error("Mongoose connection error: " + err.message);
+});
+
+mongoose.connection.on("disconnected", () => {
+  logger.warn("Mongoose disconnected");
+});
+
+mongoose.connection.on("reconnected", () => {
+  logger.info("Mongoose reconnected");
+});
+
+mongoose.connection.on("reconnectFailed", () => {
+  logger.error("Mongoose reconnectedFailed");
+});
+
+export const testConnectionDatabase = connectToDatabase;

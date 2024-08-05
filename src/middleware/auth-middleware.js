@@ -6,7 +6,7 @@ export const AuthMiddleware = async (req, res, next) => {
     return res
       .status(401)
       .json({
-        message: "Unauthorized, Access Token Tidak Ada",
+        error_message: "Unauthorized, Access Token Is Not Found",
         status_code: 401,
       })
       .end();
@@ -14,7 +14,7 @@ export const AuthMiddleware = async (req, res, next) => {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedData) => {
       if (err) {
         return res.status(401).json({
-          message: "Unauthorized, Token Tidak Valid Atau Kadaluarsa",
+          error_message: "Unauthorized, Token Invalid Or Expired",
           status_code: 401,
         });
       }

@@ -1,6 +1,7 @@
 import express from "express";
 import authRoutes from "./auth-routes.js";
 import userRoutes from "./user-routes.js";
+import messageRoutes from "./message-route.js";
 const router = new express.Router();
 router.get("/", (req, res) => {
   res.status(200).json({
@@ -17,5 +18,6 @@ router.get("/api/v1", (req, res) => {
 });
 router.use("/api/v1", authRoutes);
 router.use("/api/v1", userRoutes);
+router.use("/api/v1", messageRoutes);
 
 export default router;

@@ -22,7 +22,7 @@ describe("POST /api/v1/auth/register", () => {
     expect(result.body.data.confirm_password).toBeUndefined();
   });
 
-  it("should reject if requeast is invalid", async () => {
+  it("should reject if request is invalid", async () => {
     const result = await supertest(server).post("/api/v1/auth/register").send({
       fullname: "",
       email: "",
@@ -71,7 +71,7 @@ describe("POST /api/v1/auth/login", () => {
     expect(result.body.access_token).not.toBe("test");
   });
 
-  it("should reject if requeast is invalid", async () => {
+  it("should reject if request is invalid", async () => {
     const result = await supertest(server).post("/api/v1/auth/login").send({
       email: "",
       password: "",

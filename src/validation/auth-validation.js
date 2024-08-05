@@ -17,18 +17,6 @@ export const registerValidation = Joi.object({
     "string.max": "Field Password Max 100 Character",
     "string.empty": "Field Password Is Not Allowed To Be Empty",
   }),
-  confirm_password: Joi.string()
-    .min(8)
-    .max(100)
-    .valid(Joi.ref("password"))
-    .required()
-    .messages({
-      "any.only": "Password and Confirm Password must match",
-      "any.required": "Field Password Is Required",
-      "string.min": "Field Password Min 8 Character",
-      "string.max": "Field Password Max 100 Character",
-      "string.empty": "Field Password Is Not Allowed To Be Empty",
-    }),
 });
 export const loginValidation = Joi.object({
   email: Joi.string().max(30).email().required().messages({

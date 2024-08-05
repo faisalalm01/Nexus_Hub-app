@@ -1,4 +1,4 @@
-import { prismaClient } from "../application/database.js";
+import User from "../model/user-model.js";
 import { ResponseError } from "../utils/response-error.js";
 import {
   loginValidation,
@@ -9,54 +9,33 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 const register = async (request) => {
-  const user = validate(registerValidation, request);
-  const countUser = await prismaClient.user.count({
-    where: {
-      email: user.email,
-    },
-  });
-  if (countUser === 1) {
+  const userData = validate(registerValidation, request);
+  const countUser = await User.findOne({ email: userData.email });
+  if (countUser) {
     throw new ResponseError(409, "Email Already Registered");
   }
-  user.password = await bcrypt.hash(user.password, 10);
-  return prismaClient.user.create({
-    data: {
-      fullname: user.fullname,
-      email: user.email,
-      password: user.password,
-    },
-    select: {
-      fullname: true,
-      email: true,
-    },
-  });
+  userData.password = await bcrypt.hash(userData.password, 10);
+  const user = new User(userData);
+  await user.save();
+  return user;
 };
 const login = async (request) => {
-  const loginRequest = validate(loginValidation, request);
-  const user = await prismaClient.user.findUnique({
-    where: {
-      email: loginRequest.email,
-    },
-    select: {
-      email: true,
-      password: true,
-    },
-  });
+  const loginData = validate(loginValidation, request);
+  const user = await User.findOne({ email: loginData.email });
   if (!user) {
     throw new ResponseError(401, "Email or Password Wrong");
   }
   const isPasswwordValid = await bcrypt.compare(
-    loginRequest.password,
+    loginData.password,
     user.password
   );
-
   if (!isPasswwordValid) {
     throw new ResponseError(401, "Email or Password Wrong");
   }
-
   const payload = {
-    email: user.email,
+    userId: user.id,
     fullname: user.fullname,
+    email: user.email,
   };
   const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1d",

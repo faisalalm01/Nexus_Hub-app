@@ -1,7 +1,7 @@
 import userService from "../service/user-service.js";
-export const getUser = async (req, res, next) => {
+export const getDetailUserController = async (req, res, next) => {
   try {
-    const user = await userService.get(req.user.email);
+    const user = await userService.getDetailUser(req.user.email);
     return res.status(200).json({
       message: "User Found",
       data: user,
@@ -11,5 +11,3 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
-
-export default { getUser };
